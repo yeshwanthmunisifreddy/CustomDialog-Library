@@ -30,17 +30,14 @@
                 android:layout_alignParentEnd="true"
                 android:layout_alignParentRight="true"
                 android:layout_gravity="end"
-                android:padding="3dp"
-
-                android:src="@drawable/close_circle_outline" />
+                android:padding="3dp" />
         </RelativeLayout>
 
         <ImageView
             android:id="@+id/imgAds"
             android:layout_width="match_parent"
             android:layout_height="250dp"
-            android:padding="5dp"
-            android:src="@drawable/close_circle_outline" />
+            android:padding="5dp" />
 
         <TextView
             android:id="@+id/txMessage"
@@ -56,10 +53,10 @@
             android:orientation="horizontal"
             android:padding="10dp">
 
-            <LinearLayout
+            <RelativeLayout
+                android:id="@+id/rlCheckBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
                 android:layout_weight="1">
 
                 <CheckBox
@@ -71,30 +68,35 @@
                     android:id="@+id/txCheckBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:padding="5dp"
+                    android:layout_toEndOf="@id/checkbox"
+                    android:layout_toRightOf="@id/checkbox"
+                    android:padding="6dp"
                     android:text="@string/never_show_again" />
-            </LinearLayout>
+            </RelativeLayout>
 
-            <LinearLayout
-                android:id="@+id/rlNegative"
+            <RelativeLayout
+                android:id="@+id/rlClose"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_weight=".4">
+                android:layout_weight="1">
 
                 <TextView
                     android:id="@+id/txNegative"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentRight="true"
                     android:layout_centerInParent="true"
                     android:background="@drawable/text_border"
                     android:gravity="center"
-                    android:padding="5dp"
+                    android:paddingLeft="20dp"
+                    android:paddingTop="5dp"
+                    android:paddingRight="20dp"
+                    android:paddingBottom="5dp"
                     android:text="Close"
                     android:textColor="#ef6c00" />
-            </LinearLayout>
 
+            </RelativeLayout>
         </LinearLayout>
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

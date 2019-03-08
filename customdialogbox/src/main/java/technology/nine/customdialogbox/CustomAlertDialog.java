@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
+import android.support.v4.content.ContextCompat;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -23,7 +24,7 @@ public class CustomAlertDialog {
     private String title, message, positiveBtnText, negativeBtnText, imageUrl;
     private Activity activity;
     private int icon;
-    private technology.nine.customdialogbox.Icon visibility;
+    private technology.nine.customdialogbox.Icon visibility, checkBoxVisibility;
     private CustomDialogListener listener, nListener;
     private int pBtnColor, nBtnColor, bgColor;
     private int titleFontSize, messageFontSize;
@@ -47,6 +48,7 @@ public class CustomAlertDialog {
         this.messageFontSize = builder.messageFontSize;
         this.scaleType = builder.scaleType;
         this.nListener = builder.nListener;
+        this.checkBoxVisibility = builder.checkBoxVisibility;
 
     }
 
@@ -54,7 +56,7 @@ public class CustomAlertDialog {
         private String title, message, positiveBtnText, negativeBtnText, imageUrl;
         private Activity activity;
         private int icon;
-        private technology.nine.customdialogbox.Icon visibility;
+        private technology.nine.customdialogbox.Icon visibility, checkBoxVisibility;
         private CustomDialogListener listener, nListener;
         private int pBtnColor, nBtnColor, bgColor;
         private int titleFontSize, messageFontSize;
@@ -105,11 +107,15 @@ public class CustomAlertDialog {
             return this;
         }
 
+        public Builder checkBoxVisibility(Icon checkBoxVisibility) {
+            this.checkBoxVisibility = checkBoxVisibility;
+            return this;
+        }
 
         public CustomAlertDialog show() {
             TextView txTitle, txMessage, txCheckBox;
             ImageView imgClose, imgAds;
-            LinearLayout rlNegative;
+            RelativeLayout rlCheckBox, rlClose;
             TextView txNegative;
             final CheckBox checkbox;
             final Dialog dialog;
@@ -124,13 +130,14 @@ public class CustomAlertDialog {
             imgClose = dialog.findViewById(R.id.imgClose);
             imgAds = dialog.findViewById(R.id.imgAds);
             checkbox = dialog.findViewById(R.id.checkbox);
-            rlNegative = dialog.findViewById(R.id.rlNegative);
+            rlCheckBox = dialog.findViewById(R.id.rlCheckBox);
             txNegative = dialog.findViewById(R.id.txNegative);
+            rlClose = dialog.findViewById(R.id.rlClose);
             txTitle.setText(title);
             txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
             txMessage.setText(message);
             txMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageFontSize);
-            imgClose.setImageResource(icon);
+            imgClose.setBackgroundDrawable(ContextCompat.getDrawable(activity, icon));
             if (visibility == Icon.Visible) {
                 imgClose.setVisibility(View.VISIBLE);
             } else {
@@ -152,11 +159,11 @@ public class CustomAlertDialog {
                 }
             });
             if (negativeBtnText != null) {
-                rlNegative.setVisibility(View.VISIBLE);
+                rlClose.setVisibility(View.VISIBLE);
                 txNegative.setText(negativeBtnText);
                 txNegative.setTextColor(bgColor);
             } else {
-                rlNegative.setVisibility(View.GONE);
+                rlClose.setVisibility(View.GONE);
             }
             txNegative.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -164,6 +171,12 @@ public class CustomAlertDialog {
                     nListener.onClick(dialog, checkbox.isChecked());
                 }
             });
+
+            if (checkBoxVisibility == Icon.Visible) {
+                rlCheckBox.setVisibility(View.VISIBLE);
+            } else {
+                rlCheckBox.setVisibility(View.GONE);
+            }
             dialog.show();
             return new CustomAlertDialog(this);
         }
