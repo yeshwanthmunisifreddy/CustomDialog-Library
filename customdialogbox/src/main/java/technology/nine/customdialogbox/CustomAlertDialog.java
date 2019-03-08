@@ -184,7 +184,7 @@ public class CustomAlertDialog {
             } else {
                 rlMain.setPadding(10, 10, 10, 10);
             }
-            txTitle.setText(title);
+            txTitle.setText(Html.fromHtml(title));
             if (titleFontSize != 0) {
                 txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
             } else {
