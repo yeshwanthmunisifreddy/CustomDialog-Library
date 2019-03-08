@@ -6,7 +6,9 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.CardView;
 import android.text.Html;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -22,16 +24,19 @@ import com.bumptech.glide.Glide;
 
 
 public class CustomAlertDialog {
-    private String title, message, positiveBtnText, negativeBtnText, imageUrl, checkBoxText;
+    private String title, message, positiveBtnText, negativeBtnText,
+            imageUrl, checkBoxText;
     private Activity activity;
-    private int icon;
+    private int icon, contentPadding,
+            titleTextColor, messageTextColor;
     private technology.nine.customdialogbox.Icon visibility;
     private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
-    private CustomDialogListener listener, nListener;
+    private CustomDialogListener listener, adListener, imgAdListener, desAdListener;
     private int pBtnColor, color, bgColor;
     private int titleFontSize, messageFontSize;
     private ImageView.ScaleType scaleType;
     private boolean cancel;
+    private float cardCornerRadius;
 
     private CustomAlertDialog(Builder builder) {
         this.title = builder.title;
@@ -49,21 +54,28 @@ public class CustomAlertDialog {
         this.titleFontSize = builder.titleFontSize;
         this.messageFontSize = builder.messageFontSize;
         this.scaleType = builder.scaleType;
-        this.nListener = builder.nListener;
+        this.adListener = builder.adListener;
         this.checkBoxVisibility = builder.checkBoxVisibility;
         this.checkBoxText = builder.checkBoxText;
+        this.cardCornerRadius = builder.cardCornerRadius;
+        this.contentPadding = builder.contentPadding;
+        this.titleTextColor = builder.titleTextColor;
+        this.messageTextColor = builder.messageTextColor;
+
 
     }
 
     public static class Builder {
         private String title, message, positiveBtnText, negativeBtnText, imageUrl, checkBoxText;
         private Activity activity;
-        private int icon;
+        private int icon, contentPadding,
+                titleTextColor, messageTextColor;
         private technology.nine.customdialogbox.Icon visibility;
         private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
-        private CustomDialogListener listener, nListener;
+        private CustomDialogListener listener, adListener;
         private int pBtnColor, color, bgColor;
         private int titleFontSize, messageFontSize;
+        private float cardCornerRadius;
         private ImageView.ScaleType scaleType;
         private boolean cancel;
 
@@ -77,9 +89,19 @@ public class CustomAlertDialog {
             return this;
         }
 
+        public Builder setTitleColor(int titleTextColor) {
+            this.titleTextColor = titleTextColor;
+            return this;
+        }
+
         public Builder setMessage(String message, int fontSize) {
             this.message = message;
             this.messageFontSize = fontSize;
+            return this;
+        }
+
+        public Builder setMessageColor(int messageTextColor) {
+            this.messageTextColor = messageTextColor;
             return this;
         }
 
@@ -97,26 +119,43 @@ public class CustomAlertDialog {
             return this;
         }
 
-        public Builder isCancellable(boolean cancel) {
+        public Builder setIsCancellable(boolean cancel) {
             this.cancel = cancel;
             return this;
         }
 
-        public Builder checkBoxVisibility(String checkBoxText, technology.nine.customdialogbox.CheckBox checkBoxVisibility) {
+        public Builder setCheckBox(String checkBoxText, technology.nine.customdialogbox.CheckBox checkBoxVisibility) {
             this.checkBoxText = checkBoxText;
             this.checkBoxVisibility = checkBoxVisibility;
             return this;
         }
 
-        public Builder checkBoxTextColor(int color) {
+        public Builder setCheckBoxColor(int color) {
             this.color = color;
+            return this;
+        }
+
+        public Builder setOnAdClickListener(CustomDialogListener adListener) {
+            this.adListener = adListener;
+            return this;
+        }
+
+        public Builder setContentPadding(int contentPadding) {
+            this.contentPadding = contentPadding;
+            return this;
+        }
+
+        public Builder setContentCornerRadius(float cardCornerRadius) {
+            this.cardCornerRadius = cardCornerRadius;
             return this;
         }
 
         public CustomAlertDialog show() {
             TextView txTitle, txMessage, txCheckBox;
             ImageView imgClose, imgAds;
-            RelativeLayout rlCheckBox;
+            RelativeLayout rlCheckBox, rlMain;
+            LinearLayout liMain;
+            CardView card_layout;
             final CheckBox checkbox;
             final Dialog dialog;
             dialog = new Dialog(activity);
@@ -131,10 +170,39 @@ public class CustomAlertDialog {
             imgAds = dialog.findViewById(R.id.imgAds);
             checkbox = dialog.findViewById(R.id.checkbox);
             rlCheckBox = dialog.findViewById(R.id.rlCheckBox);
+            liMain = dialog.findViewById(R.id.liMain);
+            rlMain = dialog.findViewById(R.id.rlMain);
+            card_layout = dialog.findViewById(R.id.card_layout);
+
+            if (cardCornerRadius != 0) {
+                card_layout.setRadius(cardCornerRadius);
+            } else {
+                card_layout.setRadius(10);
+            }
+            if (contentPadding != 0) {
+                rlMain.setPadding(contentPadding, contentPadding, contentPadding, contentPadding);
+            } else {
+                rlMain.setPadding(10, 10, 10, 10);
+            }
             txTitle.setText(title);
-            txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
+            if (titleFontSize != 0) {
+                txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
+            } else {
+                txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, 20);
+            }
+            if (titleTextColor != 0) {
+                txTitle.setTextColor(titleTextColor);
+            }
             txMessage.setText(Html.fromHtml(message));
-            txMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageFontSize);
+            if (messageFontSize != 0) {
+                txMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageFontSize);
+            } else {
+                txMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+            }
+            if (messageTextColor != 0) {
+                txMessage.setTextColor(messageTextColor);
+            }
+
             imgClose.setBackgroundDrawable(ContextCompat.getDrawable(activity, icon));
             if (visibility == Icon.Visible) {
                 imgClose.setVisibility(View.VISIBLE);
@@ -166,6 +234,15 @@ public class CustomAlertDialog {
             } else {
                 rlCheckBox.setVisibility(View.GONE);
             }
+            if (adListener != null) {
+                liMain.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        adListener.onClick(dialog, checkbox.isChecked());
+                    }
+                });
+            }
+
             dialog.show();
             return new CustomAlertDialog(this);
         }

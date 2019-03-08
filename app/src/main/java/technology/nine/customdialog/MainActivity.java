@@ -28,15 +28,24 @@ public class MainActivity extends AppCompatActivity {
                 CustomAlertDialog.Builder builder = new CustomAlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Big Billion Days", 20)
                         .setMessage("Buy any product and get 20% discout up to Rs 5000", 15)
-                        .setImage("https://images.unsplash.com/photo-1551801782-9eca6ca77c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
+                        .setImage("https://cdn-images-1.medium.com/max/1600/1*j41hMsYft-ifSvXuWOb7Gg.png"
                                 , ImageView.ScaleType.FIT_XY)
-                        .checkBoxVisibility("Never show", CheckBox.Visible)
+                        .setCheckBox("Never show", CheckBox.Visible)
+                        .setContentCornerRadius(10)
+                        .setContentPadding(10)
                         .setIcon(R.drawable.close_circle, Icon.Visible, new CustomDialogListener() {
                             @Override
                             public void onClick(Dialog dialog, Boolean check) {
                                 dialog.dismiss();
                                 Toast.makeText(getApplicationContext(), check + "", Toast.LENGTH_SHORT).show();
 
+                            }
+                        })
+                        .setOnAdClickListener(new CustomDialogListener() {
+                            @Override
+                            public void onClick(Dialog dialog, Boolean check) {
+                                dialog.dismiss();
+                                Toast.makeText(getApplicationContext(), "Ad is clicked", Toast.LENGTH_SHORT).show();
                             }
                         });
                 builder.show();
