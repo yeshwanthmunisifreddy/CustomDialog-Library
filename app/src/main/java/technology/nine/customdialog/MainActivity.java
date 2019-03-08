@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
                         .setMessage("Buy any product and get 20% discout up to Rs 5000", 15)
                         .setImage("https://images.unsplash.com/photo-1551801782-9eca6ca77c16?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=668&q=80"
                                 , ImageView.ScaleType.FIT_XY)
-                        .checkBoxVisibility(CheckBox.Visible)
+                        .checkBoxVisibility("Never show", CheckBox.Visible)
                         .setIcon(R.drawable.close_circle, Icon.Visible, new CustomDialogListener() {
                             @Override
                             public void onClick(Dialog dialog, Boolean check) {

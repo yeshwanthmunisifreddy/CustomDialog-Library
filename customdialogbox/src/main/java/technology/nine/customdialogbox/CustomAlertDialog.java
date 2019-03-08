@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.v4.content.ContextCompat;
+import android.text.Html;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.Window;
@@ -21,13 +22,13 @@ import com.bumptech.glide.Glide;
 
 
 public class CustomAlertDialog {
-    private String title, message, positiveBtnText, negativeBtnText, imageUrl;
+    private String title, message, positiveBtnText, negativeBtnText, imageUrl, checkBoxText;
     private Activity activity;
     private int icon;
     private technology.nine.customdialogbox.Icon visibility;
     private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
     private CustomDialogListener listener, nListener;
-    private int pBtnColor, nBtnColor, bgColor;
+    private int pBtnColor, color, bgColor;
     private int titleFontSize, messageFontSize;
     private ImageView.ScaleType scaleType;
     private boolean cancel;
@@ -42,7 +43,7 @@ public class CustomAlertDialog {
         this.positiveBtnText = builder.positiveBtnText;
         this.negativeBtnText = builder.negativeBtnText;
         this.pBtnColor = builder.pBtnColor;
-        this.nBtnColor = builder.nBtnColor;
+        this.color = builder.color;
         this.bgColor = builder.bgColor;
         this.cancel = builder.cancel;
         this.titleFontSize = builder.titleFontSize;
@@ -50,17 +51,18 @@ public class CustomAlertDialog {
         this.scaleType = builder.scaleType;
         this.nListener = builder.nListener;
         this.checkBoxVisibility = builder.checkBoxVisibility;
+        this.checkBoxText = builder.checkBoxText;
 
     }
 
     public static class Builder {
-        private String title, message, positiveBtnText, negativeBtnText, imageUrl;
+        private String title, message, positiveBtnText, negativeBtnText, imageUrl, checkBoxText;
         private Activity activity;
         private int icon;
         private technology.nine.customdialogbox.Icon visibility;
         private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
         private CustomDialogListener listener, nListener;
-        private int pBtnColor, nBtnColor, bgColor;
+        private int pBtnColor, color, bgColor;
         private int titleFontSize, messageFontSize;
         private ImageView.ScaleType scaleType;
         private boolean cancel;
@@ -100,8 +102,14 @@ public class CustomAlertDialog {
             return this;
         }
 
-        public Builder checkBoxVisibility(technology.nine.customdialogbox.CheckBox checkBoxVisibility) {
+        public Builder checkBoxVisibility(String checkBoxText, technology.nine.customdialogbox.CheckBox checkBoxVisibility) {
+            this.checkBoxText = checkBoxText;
             this.checkBoxVisibility = checkBoxVisibility;
+            return this;
+        }
+
+        public Builder checkBoxTextColor(int color) {
+            this.color = color;
             return this;
         }
 
@@ -125,7 +133,7 @@ public class CustomAlertDialog {
             rlCheckBox = dialog.findViewById(R.id.rlCheckBox);
             txTitle.setText(title);
             txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
-            txMessage.setText(message);
+            txMessage.setText(Html.fromHtml(message));
             txMessage.setTextSize(TypedValue.COMPLEX_UNIT_SP, messageFontSize);
             imgClose.setBackgroundDrawable(ContextCompat.getDrawable(activity, icon));
             if (visibility == Icon.Visible) {
@@ -150,6 +158,11 @@ public class CustomAlertDialog {
             });
             if (checkBoxVisibility == technology.nine.customdialogbox.CheckBox.Visible) {
                 rlCheckBox.setVisibility(View.VISIBLE);
+                txCheckBox.setText(checkBoxText);
+                if (color != 0) {
+                    txCheckBox.setTextColor(color);
+                }
+
             } else {
                 rlCheckBox.setVisibility(View.GONE);
             }
