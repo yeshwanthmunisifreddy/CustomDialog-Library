@@ -24,7 +24,8 @@ public class CustomAlertDialog {
     private String title, message, positiveBtnText, negativeBtnText, imageUrl;
     private Activity activity;
     private int icon;
-    private technology.nine.customdialogbox.Icon visibility, checkBoxVisibility;
+    private technology.nine.customdialogbox.Icon visibility;
+    private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
     private CustomDialogListener listener, nListener;
     private int pBtnColor, nBtnColor, bgColor;
     private int titleFontSize, messageFontSize;
@@ -56,7 +57,8 @@ public class CustomAlertDialog {
         private String title, message, positiveBtnText, negativeBtnText, imageUrl;
         private Activity activity;
         private int icon;
-        private technology.nine.customdialogbox.Icon visibility, checkBoxVisibility;
+        private technology.nine.customdialogbox.Icon visibility;
+        private technology.nine.customdialogbox.CheckBox checkBoxVisibility;
         private CustomDialogListener listener, nListener;
         private int pBtnColor, nBtnColor, bgColor;
         private int titleFontSize, messageFontSize;
@@ -85,15 +87,6 @@ public class CustomAlertDialog {
             return this;
         }
 
-        public Builder setNegativeButton(String negativeBtnText, int textColor, CustomDialogListener nListener) {
-            this.negativeBtnText = negativeBtnText;
-            this.nListener = nListener;
-            this.bgColor = textColor;
-            return this;
-
-        }
-
-
         //setIcon
         public Builder setIcon(int icon, Icon visibility, CustomDialogListener listener) {
             this.icon = icon;
@@ -107,7 +100,7 @@ public class CustomAlertDialog {
             return this;
         }
 
-        public Builder checkBoxVisibility(Icon checkBoxVisibility) {
+        public Builder checkBoxVisibility(technology.nine.customdialogbox.CheckBox checkBoxVisibility) {
             this.checkBoxVisibility = checkBoxVisibility;
             return this;
         }
@@ -115,8 +108,7 @@ public class CustomAlertDialog {
         public CustomAlertDialog show() {
             TextView txTitle, txMessage, txCheckBox;
             ImageView imgClose, imgAds;
-            RelativeLayout rlCheckBox, rlClose;
-            TextView txNegative;
+            RelativeLayout rlCheckBox;
             final CheckBox checkbox;
             final Dialog dialog;
             dialog = new Dialog(activity);
@@ -131,8 +123,6 @@ public class CustomAlertDialog {
             imgAds = dialog.findViewById(R.id.imgAds);
             checkbox = dialog.findViewById(R.id.checkbox);
             rlCheckBox = dialog.findViewById(R.id.rlCheckBox);
-            txNegative = dialog.findViewById(R.id.txNegative);
-            rlClose = dialog.findViewById(R.id.rlClose);
             txTitle.setText(title);
             txTitle.setTextSize(TypedValue.COMPLEX_UNIT_SP, titleFontSize);
             txMessage.setText(message);
@@ -158,21 +148,7 @@ public class CustomAlertDialog {
                     listener.onClick(dialog, checkbox.isChecked());
                 }
             });
-            if (negativeBtnText != null) {
-                rlClose.setVisibility(View.VISIBLE);
-                txNegative.setText(negativeBtnText);
-                txNegative.setTextColor(bgColor);
-            } else {
-                rlClose.setVisibility(View.GONE);
-            }
-            txNegative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    nListener.onClick(dialog, checkbox.isChecked());
-                }
-            });
-
-            if (checkBoxVisibility == Icon.Visible) {
+            if (checkBoxVisibility == technology.nine.customdialogbox.CheckBox.Visible) {
                 rlCheckBox.setVisibility(View.VISIBLE);
             } else {
                 rlCheckBox.setVisibility(View.GONE);
