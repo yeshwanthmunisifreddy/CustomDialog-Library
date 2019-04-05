@@ -27,12 +27,16 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 CustomAlertDialog.Builder builder = new CustomAlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Big Billion Days", 20)
+                        .setTitleColor(Color.parseColor("#000000"))
                         .setMessage("Buy any product and get 20% discout up to Rs 5000", 15)
+                        .setMessageColor(Color.parseColor("#000000"))
                         .setImage("https://cdn-images-1.medium.com/max/1600/1*j41hMsYft-ifSvXuWOb7Gg.png"
                                 , ImageView.ScaleType.FIT_XY)
                         .setCheckBox("Never show", CheckBox.Visible)
+                        .setCheckBoxColor(Color.parseColor("#000000"))
                         .setContentCornerRadius(10)
                         .setContentPadding(10)
+                        .setIsCancellable(true)
                         .setIcon(R.drawable.close_circle, Icon.Visible, new CustomDialogListener() {
                             @Override
                             public void onClick(Dialog dialog, Boolean check) {
